@@ -19,6 +19,9 @@ files_summary_path = os.path.join(output_dir, "invoices_files_summary.csv")
 def categorize_item(description):
     desc = description.lower()
 
+    # Pienso Bruce
+    if any(x in desc for x in ["C POLLO TER F Y V", "C.TERNERA/POLLO/VERD"]):
+        return "Pienso"
     # Conservas
     if any(x in desc for x in ["fte. caballa",  "rabas", "anchoa", "anchoas", "mejillones escabeche", "mej. chile", "a.rellenas", 
                                 "acie. rellenas", "aceituna", "almeja blanca", "filete melva", "maiz dulce", "mejillón", "paté", "pate", "sofreir",
@@ -62,7 +65,7 @@ def categorize_item(description):
     if any(x in desc for x in ["pollo", "huevos", "pechuga", "lomo", "bacon", "carrillada", "burger", "secreto", "alas", "jamon", "jamón", "pavo", 
                                "ternera", "longaniza", "paleta", "brocheta", "pluma", "chorizo", "compango", "cabeza", "cabez", "butifarra", "carpaccio",
                                "chopped", "codillo", "cost", "costilla", "entrecot", "york", "medallón", "pato", "muslo", "nuggets", "pelotas", "pelota",
-                               "pincho", "sangre", "sobrasada", "solomillo", "fiambre", "pech", "carrillera", "cecina", "chistorra"]):
+                               "pincho", "sangre", "sobrasada", "solomillo", "fiambre", "pech", "carrillera", "cecina", "chistorra", "hamb. cerdo"]):
         return "Meat / Poultry"
         
     # Bebidas
@@ -114,7 +117,7 @@ def categorize_item(description):
     if any(x in desc for x in ["tomate", "platano", "alcachofa", "plátano", "cebolla", "patata", "ajo", "brocoli", "brócoli", "pimiento",
                                 "pepino", "banana", "coliflor", "romana", "champiñon", "champiñón", "cogollos", "coles de bruselas", "fresón", "guacamole", "kaki",
                                 "piña", "seta", "t.cherry", "zanahoria", "apio", "cocido", "vegetales", "aguacate", "arreglo puchero", "berenjena", "brevas", "dátil",
-                                "fresa"]):
+                                "fresa", "mora"]):
         return "Vegetables / Fruit"
             
     return "Other / Grocery"
@@ -393,6 +396,7 @@ def backup_all_output_files(csv_exists, files_summary_exists, md_exists, sortcsv
     output_sortcsv_path_bkup = os.path.join(backup_output_dir, f"invoices_summary_sorted_{today}.csv")
     files_summary_path_bkup = os.path.join(backup_output_dir, f"invoices_files_summary_{today}.csv")
     output_md_path_bkup = os.path.join(backup_output_dir, f"invoices_summary_{today}.md")
+    print("Copying bkup files to {} - {} - {} - {}".format(output_csv_path_bkup, output_sortcsv_path_bkup, files_summary_path_bkup, output_md_path_bkup))
 
     if csv_exists:
         shutil.copyfile(output_csv_path, output_csv_path_bkup)
